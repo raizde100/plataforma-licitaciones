@@ -41,6 +41,7 @@ const Search = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filters, setFilters] = useState({
     sector: '',
+    industry: '',
     region: '',
     minAmount: 0,
     maxAmount: 100000000,
@@ -59,6 +60,7 @@ const Search = () => {
       deadline: '2024-02-15',
       status: 'Abierto',
       sector: 'Construcción',
+      industry: 'Infraestructura Hospitalaria',
       region: 'Arequipa',
       description: 'Proyecto de construcción de hospital regional con capacidad para 200 camas...',
     },
@@ -70,6 +72,7 @@ const Search = () => {
       deadline: '2024-02-20',
       status: 'Abierto',
       sector: 'Tecnología',
+      industry: 'Software de Gestión',
       region: 'Lima',
       description: 'Desarrollo e implementación de sistema de gestión hospitalaria...',
     },
@@ -81,6 +84,7 @@ const Search = () => {
       deadline: '2024-02-25',
       status: 'Próximo',
       sector: 'Educación',
+      industry: 'Mantenimiento de Edificios',
       region: 'Cusco',
       description: 'Servicios de mantenimiento preventivo y correctivo...',
     },
@@ -92,12 +96,69 @@ const Search = () => {
       deadline: '2024-03-01',
       status: 'Abierto',
       sector: 'Salud',
+      industry: 'Equipos Médicos',
       region: 'Piura',
       description: 'Adquisición de equipos médicos especializados...',
+    },
+    {
+      id: 5,
+      title: 'Desarrollo de Software para Gestión Municipal',
+      institution: 'Municipalidad de Lima',
+      amount: 5200000,
+      deadline: '2024-03-10',
+      status: 'Abierto',
+      sector: 'Tecnología',
+      industry: 'Desarrollo de Software',
+      region: 'Lima',
+      description: 'Desarrollo de plataforma digital para gestión municipal...',
+    },
+    {
+      id: 6,
+      title: 'Construcción de Carretera Interprovincial',
+      institution: 'MTC',
+      amount: 45000000,
+      deadline: '2024-03-15',
+      status: 'Próximo',
+      sector: 'Transporte',
+      industry: 'Infraestructura Vial',
+      region: 'La Libertad',
+      description: 'Construcción de carretera de 50km entre provincias...',
     },
   ];
 
   const sectors = ['Construcción', 'Tecnología', 'Salud', 'Educación', 'Transporte', 'Otros'];
+  const industries = [
+    'Infraestructura Hospitalaria',
+    'Software de Gestión',
+    'Mantenimiento de Edificios',
+    'Equipos Médicos',
+    'Desarrollo de Software',
+    'Infraestructura Vial',
+    'Telecomunicaciones',
+    'Energía Renovable',
+    'Seguridad Informática',
+    'Logística y Distribución',
+    'Consultoría',
+    'Capacitación',
+    'Investigación y Desarrollo',
+    'Medio Ambiente',
+    'Turismo',
+    'Agricultura',
+    'Minería',
+    'Pesca',
+    'Textil',
+    'Automotriz',
+    'Química',
+    'Farmacéutica',
+    'Alimentaria',
+    'Bebidas',
+    'Construcción Residencial',
+    'Construcción Comercial',
+    'Construcción Industrial',
+    'Saneamiento',
+    'Iluminación Pública',
+    'Parques y Jardines'
+  ];
   const regions = ['Lima', 'Arequipa', 'Cusco', 'Piura', 'La Libertad', 'Lambayeque', 'Todas'];
   const statuses = ['Abierto', 'Próximo', 'Cerrado', 'Adjudicado'];
   const years = ['2024', '2023', '2022', '2021'];
@@ -174,7 +235,7 @@ const Search = () => {
             </AccordionSummary>
             <AccordionDetails>
               <Grid container spacing={3}>
-                <Grid item xs={12} sm={6} md={3}>
+                <Grid item xs={12} sm={6} md={2}>
                   <FormControl fullWidth>
                     <InputLabel>Sector</InputLabel>
                     <Select
@@ -192,7 +253,25 @@ const Search = () => {
                   </FormControl>
                 </Grid>
 
-                <Grid item xs={12} sm={6} md={3}>
+                <Grid item xs={12} sm={6} md={2}>
+                  <FormControl fullWidth>
+                    <InputLabel>Industria</InputLabel>
+                    <Select
+                      value={filters.industry}
+                      label="Industria"
+                      onChange={(e) => handleFilterChange('industry', e.target.value)}
+                    >
+                      <MenuItem value="">Todas</MenuItem>
+                      {industries.map((industry) => (
+                        <MenuItem key={industry} value={industry}>
+                          {industry}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+
+                <Grid item xs={12} sm={6} md={2}>
                   <FormControl fullWidth>
                     <InputLabel>Región</InputLabel>
                     <Select
@@ -210,7 +289,7 @@ const Search = () => {
                   </FormControl>
                 </Grid>
 
-                <Grid item xs={12} sm={6} md={3}>
+                <Grid item xs={12} sm={6} md={2}>
                   <FormControl fullWidth>
                     <InputLabel>Estado</InputLabel>
                     <Select
@@ -228,7 +307,7 @@ const Search = () => {
                   </FormControl>
                 </Grid>
 
-                <Grid item xs={12} sm={6} md={3}>
+                <Grid item xs={12} sm={6} md={2}>
                   <FormControl fullWidth>
                     <InputLabel>Año</InputLabel>
                     <Select
@@ -309,8 +388,9 @@ const Search = () => {
                       </Box>
                     </Box>
 
-                    <Box sx={{ display: 'flex', gap: 1 }}>
+                    <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
                       <Chip label={tender.sector} size="small" />
+                      <Chip label={tender.industry} size="small" variant="outlined" />
                       <Chip
                         label={tender.status}
                         size="small"
